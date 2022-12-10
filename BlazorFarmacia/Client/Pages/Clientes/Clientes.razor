@@ -64,7 +64,7 @@ else
 
     protected async Task Eliminar(ClienteDto cliente)
     {
-        await httpClient.DeleteAsync($"api/Empleados/{cliente.Id}");
+        await httpClient.DeleteAsync($"api/Clientes/{cliente.Id}");
         clientes.Remove(cliente);
     }
 
