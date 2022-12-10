@@ -1,5 +1,5 @@
 ﻿@page "/clientes"
-@using BlazorFarmacia.Shared.DTOS.Empleados
+@using BlazorFarmacia.Shared.DTOS.Clientes
 
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
@@ -8,17 +8,17 @@
 
 <div class="row justify-content-end">
     <div class="col-lg-3 text-end">
-        <button type="button" class="btn btn-success" @onclick=@(() => navigationManager.NavigateTo("empleado"))>Agregar</button>
+        <button type="button" class="btn btn-success" @onclick=@(() => navigationManager.NavigateTo("cliente"))>Agregar</button>
     </div>
 </div>
 
-@if (empleados == null)
+@if (clientes == null)
 {
     <h1>Cargando...</h1>
 }
-else if (empleados.Count == 0)
+else if (clientes.Count == 0)
 {
-    <h1>No se encontraron empleados registrados...</h1>
+    <h1>No se encontraron clientes registrados...</h1>
 }
 else
 {
@@ -32,15 +32,15 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (var empleado in empleados)
+                @foreach (var cliente in clientes)
                 {
                     <tr>
-                        <td>@empleado.Id</td>
-                        <td>@empleado.Nombre</td>
+                        <td>@cliente.Id</td>
+                        <td>@cliente.Nombre</td>
 
                         <td>
-                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"empleado/{empleado.Id}"))>Editar</button>
-                            <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(empleado))">Eliminar</button>
+                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"cliente/{cliente.Id}"))>Editar</button>
+                            <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(cliente))">Eliminar</button>
                         </td>
                     </tr>
                 }
@@ -50,22 +50,22 @@ else
 }
 
 @code {
-    protected List<EmpleadoDto> empleados;
+    protected List<ClienteDto> clientes;
 
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await httpClient.GetFromJsonAsync<List<EmpleadoDto>>("api/Empleados");
+        var response = await httpClient.GetFromJsonAsync<List<ClienteDto>>("api/Clientes");
         if (response != null)
         {
-            empleados = response;
+            clientes = response;
         }
     }
 
-    protected async Task Eliminar(EmpleadoDto empleado)
+    protected async Task Eliminar(ClienteDto cliente)
     {
-        await httpClient.DeleteAsync($"api/Empleados/{empleado.Id}");
-        empleados.Remove(empleado);
+        await httpClient.DeleteAsync($"api/Empleados/{cliente.Id}");
+        clientes.Remove(cliente);
     }
 
 }
