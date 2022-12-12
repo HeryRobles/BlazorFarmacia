@@ -23,8 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Empleados\" />
-    <Folder Include="Pages\Productos\" />
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
 </Project>

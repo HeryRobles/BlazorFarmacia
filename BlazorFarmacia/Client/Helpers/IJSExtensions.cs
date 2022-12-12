@@ -8,5 +8,10 @@ namespace BlazorFarmacia.Client.Helpers
         {
             return js.InvokeAsync<object>("Swal.fire", mensaje);
         }
+
+        //public static async ValueTask<object> MensajeEliminar(this IJSRuntime js, string titulo, string mensaje)
+        //{
+        //    return await js.InvokeAsync<object>()
+        //}
     }
 }

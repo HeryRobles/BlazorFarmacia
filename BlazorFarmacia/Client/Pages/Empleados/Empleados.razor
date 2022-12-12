@@ -1,0 +1,71 @@
+﻿@page "/empleados"
+@using BlazorFarmacia.Shared.DTOS.Empleados
+
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3>Empleados</h3>
+
+<div class="row justify-content-end">
+    <div class="col-lg-3 text-end">
+        <button type="button" class="btn btn-success" @onclick=@(() => navigationManager.NavigateTo("empleado"))>Agregar</button>
+    </div>
+</div>
+
+@if (empleados == null)
+{
+    <h1>Cargando...</h1>
+}
+else if (empleados.Count == 0)
+{
+    <h1>No se encontraron empleados registrados...</h1>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table text-center table-hover">
+            <thead class="table-striped">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var empleado in empleados)
+                {
+                    <tr>
+                        <td>@empleado.Id</td>
+                        <td>@empleado.Nombre</td>
+
+                        <td>
+                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"empleado/{empleado.Id}"))>Editar</button>
+                            <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(empleado))">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    protected List<EmpleadoDto> empleados;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetFromJsonAsync<List<EmpleadoDto>>("api/Empleados");
+        if (response != null)
+        {
+            empleados = response;
+        }
+    }
+
+    protected async Task Eliminar(EmpleadoDto empleado)
+    {
+        await httpClient.DeleteAsync($"api/Empleados/{empleado.Id}");
+        empleados.Remove(empleado);
+    }
+
+}
