@@ -9,7 +9,7 @@ using System.Diagnostics.Contracts;
 
 namespace BlazorFarmacia.Server.Controllers
 {
-    [ApiController, Route("[Controller]")]
+    [ApiController, Route("api/Productos")]
     public class ProductosController : ControllerBase
     {
         private readonly ApplicationDbContext context;

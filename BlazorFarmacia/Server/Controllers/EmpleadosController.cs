@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlazorFarmacia.Server.Controllers
 {
-    [ApiController, Route("[Controller]")]
+    [ApiController, Route("api/Empleados")]
     public class EmpleadosController : ControllerBase
     {
         private readonly ApplicationDbContext context;

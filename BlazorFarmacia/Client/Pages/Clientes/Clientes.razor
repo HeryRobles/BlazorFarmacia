@@ -1,8 +1,10 @@
 ﻿@page "/clientes"
+@using BlazorFarmacia.Client.Helpers
 @using BlazorFarmacia.Shared.DTOS.Clientes
 
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
+@inject IJSRuntime JS
 
 <h3>Clientes</h3>
 
@@ -41,6 +43,7 @@ else
                         <td>
                             <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"cliente/{cliente.Id}"))>Editar</button>
                             <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(cliente))">Eliminar</button>
+                            @* <button class="btn btn-danger" type="button" @onclick="@(() => Mensaje("lo que sea")">Eliminar</button>*@
                         </td>
                     </tr>
                 }
@@ -64,8 +67,14 @@ else
 
     protected async Task Eliminar(ClienteDto cliente)
     {
+        await JS.MostrarMensaje("prueba");
         await httpClient.DeleteAsync($"api/Clientes/{cliente.Id}");
         clientes.Remove(cliente);
     }
+
+    //private async Task Mensaje(string mensaje)
+    //{
+    //    JS.
+    //}
 
 }
