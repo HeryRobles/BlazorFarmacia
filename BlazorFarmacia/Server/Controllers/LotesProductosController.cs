@@ -38,7 +38,7 @@ namespace BlazorFarmacia.Server.Controllers
 
             var loteProductoDto = new LoteProductoDto();
             loteProductoDto.Id = loteProducto.Id;
-            loteProductoDto.Lote = loteProducto.lote;
+            loteProductoDto.Lote = loteProducto.Lote;
             loteProductoDto.FechaCaducidad = loteProducto.FechaCaducidad;
 
 
@@ -50,7 +50,7 @@ namespace BlazorFarmacia.Server.Controllers
         {
             var loteProducto = new LoteProducto();
             loteProducto.Id = loteProductoDto.Id;
-            loteProducto.lote = loteProductoDto.Lote;
+            loteProducto.Lote = loteProductoDto.Lote;
             loteProducto.FechaCaducidad = loteProductoDto.FechaCaducidad;
 
             context.LoteProductos.Add(loteProducto);
@@ -68,7 +68,7 @@ namespace BlazorFarmacia.Server.Controllers
                 return NotFound();
             }
 
-            loteProductosDb.lote = loteProductosDb.lote;
+            loteProductosDb.Lote = loteProductosDb.Lote;
             loteProductosDb.FechaCaducidad = loteProductosDb.FechaCaducidad;
 
             context.LoteProductos.Update(loteProductosDb);

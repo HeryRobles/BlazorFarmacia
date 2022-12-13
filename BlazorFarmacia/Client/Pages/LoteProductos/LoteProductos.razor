@@ -1,0 +1,73 @@
+﻿@page "/loteProductos"
+@using BlazorFarmacia.Shared.DTOS.LotesProductos
+
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3>LoteProductos</h3>
+
+<div class="row justify-content-end">
+    <div class="col-lg-3 text-end">
+        <button type="button" class="btn btn-success" @onclick=@(() => navigationManager.NavigateTo("loteProducto"))>Agregar</button>
+    </div>
+</div>
+
+@if (lotesProductos == null)
+{
+    <h1>Cargando...</h1>
+}
+else if (lotesProductos.Count == 0)
+{
+    <h1>No se encontraron lotes registrados...</h1>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table text-center table-hover">
+            <thead class="table-striped">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var lote in lotesProductos)
+                {
+                    <tr>
+                        <td>@lote.Id</td>
+                        <td>@lote.Lote</td>
+
+                        <td>
+                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"loteProducto/{lote.Id}"))>Editar</button>
+                            <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(lote))">Eliminar</button>
+                            @* <button class="btn btn-danger" type="button" @onclick="@(() => Mensaje("lo que sea")">Eliminar</button>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+
+@code {
+    protected List<LoteProductoDto> lotesProductos;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetFromJsonAsync<List<LoteProductoDto>>("api/LotesProductos");
+        if (response != null)
+        {
+            lotesProductos = response;
+        }
+    }
+
+    protected async Task Eliminar(LoteProductoDto loteProducto)
+    {
+        await httpClient.DeleteAsync($"api/LotesProductos/{loteProducto.Id}");
+        lotesProductos.Remove(loteProducto);
+    }
+
+}
