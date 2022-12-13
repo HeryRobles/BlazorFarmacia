@@ -1,5 +1,70 @@
-﻿<h3>Ventas</h3>
+﻿@page "/ventas"
+@using BlazorFarmacia.Shared.DTOS.Ventas
+
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3>Ventas</h3>
+
+<div class="row justify-content-end">
+    <div class="col-lg-3 text-end">
+        <button type="button" class="btn btn-success" @onclick=@(() => navigationManager.NavigateTo("venta"))>Agregar</button>
+    </div>
+</div>
+
+@if (ventas == null)
+{
+    <h1>Cargando...</h1>
+}
+else if (ventas.Count == 0)
+{
+    <h1>No se encontraron ventas registrados...</h1>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table text-center table-hover">
+            <thead class="table-striped">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var venta in ventas)
+                {
+                    <tr>
+                        <td>@venta.Id</td>
+                        <td>@venta.Folio</td>
+
+                        <td>
+                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"venta/{venta.Id}"))>Editar</button>
+                            <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(venta))">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
 
 @code {
+    protected List<VentaDto> ventas;
 
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetFromJsonAsync<List<VentaDto>>("api/Ventas");
+        if (response != null)
+        {
+            ventas = response;
+        }
+    }
+
+    protected async Task Eliminar(VentaDto venta)
+    {
+        await httpClient.DeleteAsync($"api/Ventas/{venta.Id}");
+        ventas.Remove(venta);
+    }
 }

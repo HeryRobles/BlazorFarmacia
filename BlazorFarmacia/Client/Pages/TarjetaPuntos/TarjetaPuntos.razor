@@ -1,5 +1,40 @@
-﻿<h3>TarjetaPuntos</h3>
+﻿@page "/tarjetaPuntos"
+@page "/tarjetaPuntos/{id:int}"
+@using BlazorFarmacia.Shared.DTOS.TarjetasPuntos
+
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3>TarjetaPuntos</h3>
 
 @code {
+    protected TarjetaPuntosDto tarjeta = new TarjetaPuntosDto();
+    [Parameter] public int id { get; set; } = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (id > 0)
+        {
+            var response = await httpClient.GetFromJsonAsync<TarjetaPuntosDto>($"api/TarjetaPuntos/{id}");
+            if (response != null)
+            {
+                tarjeta = response;
+            }
+        }
+    }
+
+    private async Task OnValidSubmit()
+    {
+        if (id > 0)
+        {
+            await httpClient.PutAsJsonAsync<TarjetaPuntosDto>("api/TarjetaPuntos", tarjeta);
+        }
+        else
+        {
+            await httpClient.PostAsJsonAsync<TarjetaPuntosDto>("api/TarjetaPuntos", tarjeta);
+        }
+
+        navigationManager.NavigateTo("tarjetasPuntos");
+    }
 
 }

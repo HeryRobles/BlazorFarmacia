@@ -1,5 +1,71 @@
-﻿<h3>TarjetasPuntos</h3>
+﻿@page "/tarjetaspuntos"
+@using BlazorFarmacia.Shared.DTOS.TarjetasPuntos
+
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3>TarjetasPuntos</h3>
+
+<div class="row justify-content-end">
+    <div class="col-lg-3 text-end">
+        <button type="button" class="btn btn-success" @onclick=@(() => navigationManager.NavigateTo("tarjetaPuntos"))>Agregar</button>
+    </div>
+</div>
+
+@if (tarjetas == null)
+{
+    <h1>Cargando...</h1>
+}
+else if (tarjetas.Count == 0)
+{
+    <h1>No se encontraron tarjetas registradas...</h1>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table text-center table-hover">
+            <thead class="table-striped">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tarjeta in tarjetas)
+                {
+                    <tr>
+                        <td>@tarjeta.Id</td>
+                        <td>@tarjeta.Folio</td>
+
+                        <td>
+                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"tarjetaPuntos/{tarjeta.Id}"))>Editar</button>
+                            <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(tarjeta))">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
 
 @code {
+    protected List<TarjetaPuntosDto> tarjetas;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetFromJsonAsync<List<TarjetaPuntosDto>>("api/TarjetaPuntos");
+        if (response != null)
+        {
+            tarjetas = response;
+        }
+    }
+
+    protected async Task Eliminar(TarjetaPuntosDto tarjeta)
+    {
+        await httpClient.DeleteAsync($"api/TarjetaPuntos/{tarjeta.Id}");
+        tarjetas.Remove(tarjeta);
+    }
 
 }

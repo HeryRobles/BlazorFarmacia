@@ -1,5 +1,71 @@
-﻿<h3>Productos</h3>
+﻿@page "/productos"
+@using BlazorFarmacia.Shared.DTOS.Productos
+
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3>Productos</h3>
+
+<div class="row justify-content-end">
+    <div class="col-lg-3 text-end">
+        <button type="button" class="btn btn-success" @onclick=@(() => navigationManager.NavigateTo("producto"))>Agregar</button>
+    </div>
+</div>
+
+@if (productos == null)
+{
+    <h1>Cargando...</h1>
+}
+else if (productos.Count == 0)
+{
+    <h1>No se encontraron productos registrados...</h1>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table text-center table-hover">
+            <thead class="table-striped">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var producto in productos)
+                {
+                    <tr>
+                        <td>@producto.Id</td>
+                        <td>@producto.ValorUnitario</td>
+
+                        <td>
+                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"producto/{producto.Id}"))>Editar</button>
+                            <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(producto))">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
 
 @code {
+    protected List<ProductoDto> productos;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetFromJsonAsync<List<ProductoDto>>("api/Productos");
+        if (response != null)
+        {
+            productos = response;
+        }
+    }
+
+    protected async Task Eliminar(ProductoDto producto)
+    {
+        await httpClient.DeleteAsync($"api/Productos/{producto.Id}");
+        productos.Remove(producto);
+    }
 
 }

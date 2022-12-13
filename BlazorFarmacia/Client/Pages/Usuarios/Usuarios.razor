@@ -1,5 +1,71 @@
-﻿<h3>Usuarios</h3>
+﻿@page "/usuarios"
+@using BlazorFarmacia.Shared.DTOS.Usuarios
+
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3>Usuarios</h3>
+
+<div class="row justify-content-end">
+    <div class="col-lg-3 text-end">
+        <button type="button" class="btn btn-success" @onclick=@(() => navigationManager.NavigateTo("usuario"))>Agregar</button>
+    </div>
+</div>
+
+@if (usuarios == null)
+{
+    <h1>Cargando...</h1>
+}
+else if (usuarios.Count == 0)
+{
+    <h1>No se encontraron usuarios registrados...</h1>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table text-center table-hover">
+            <thead class="table-striped">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var usuario in usuarios)
+                {
+                    <tr>
+                        <td>@usuario.Id</td>
+                        <td>@usuario.NombreUsuario</td>
+
+                        <td>
+                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"usuario/{usuario.Id}"))>Editar</button>
+                            <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(usuario))">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
 
 @code {
+    protected List<UsuarioDto> usuarios;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetFromJsonAsync<List<UsuarioDto>>("api/Usuarios");
+        if (response != null)
+        {
+            usuarios = response;
+        }
+    }
+
+    protected async Task Eliminar(UsuarioDto usuario)
+    {
+        await httpClient.DeleteAsync($"api/Contactos/{usuario.Id}");
+        usuarios.Remove(usuario);
+    }
 
 }
