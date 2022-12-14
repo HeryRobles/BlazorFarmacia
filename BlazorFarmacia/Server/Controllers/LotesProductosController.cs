@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlazorFarmacia.Server.Controllers
 {
-    [ApiController, Route("api/LotesProductos")]
+    [ApiController, Route("api/LoteProductos")]
     public class LotesProductosController : ControllerBase
     {
         private readonly ApplicationDbContext context;

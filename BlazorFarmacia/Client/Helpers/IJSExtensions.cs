@@ -11,13 +11,10 @@ namespace BlazorFarmacia.Client.Helpers
 
         public static async ValueTask<bool> Confirmar(this IJSRuntime js, string titulo, string mensaje, TipoMensajeSweetAlert tipoMensajeSweetAlert)
         {
-            return await js.InvokeAsync<bool>("CustomConfirm", titulo, mensaje, tipoMensajeSweetAlert.ToString());
+            return await js.InvokeAsync<bool>(titulo, mensaje, tipoMensajeSweetAlert.ToString());
         }
 
-        //public static async ValueTask<object> MensajeEliminar(this IJSRuntime js, string titulo, string mensaje)
-        //{
-        //    return await js.InvokeAsync<object>()
-        //}
+    
     }
 
     public enum TipoMensajeSweetAlert

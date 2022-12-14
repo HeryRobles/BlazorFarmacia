@@ -8,6 +8,7 @@
 
 <h3>Clientes</h3>
 
+
 <div class="row justify-content-end">
     <div class="col-lg-3 text-end">
         <button type="button" class="btn btn-success" @onclick=@(() => navigationManager.NavigateTo("cliente"))>Agregar</button>
@@ -43,7 +44,7 @@ else
                         <td>
                             <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"cliente/{cliente.Id}"))>Editar</button>
                             <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(cliente))">Eliminar</button>
-                            @* <button class="btn btn-danger" type="button" @onclick="@(() => Mensaje("lo que sea")">Eliminar</button>*@
+                            @*<button class="btn btn-danger" type="button" @onclick="@(() => Mensaje("lo que sea")">Eliminar</button>*@
                         </td>
                     </tr>
                 }
@@ -51,6 +52,13 @@ else
         </table>
     </div>
 }
+
+
+
+<div>
+    <a class="btn btn-success" href="tarjetasPuntos">Agregar Tarjeta de Puntos</a>
+
+</div>
 
 @code {
     protected List<ClienteDto> clientes;
@@ -67,13 +75,13 @@ else
 
     protected async Task Eliminar(ClienteDto cliente)
     {
-        if (await JS.Confirmar("Confirmar", "Esta acción no se puede revertir", TipoMensajeSweetAlert.question))
+
+        if (await JS.Confirmar("Confirmar", "Desea eliminar este registro seleccionado?", TipoMensajeSweetAlert.question))
         {
             await httpClient.DeleteAsync($"api/Clientes/{cliente.Id}");
             clientes.Remove(cliente);
         }
-        
-    }
 
+    }
 
 }

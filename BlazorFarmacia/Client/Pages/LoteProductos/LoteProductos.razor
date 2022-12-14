@@ -12,11 +12,11 @@
     </div>
 </div>
 
-@if (lotesProductos == null)
+@if (loteProductos == null)
 {
     <h1>Cargando...</h1>
 }
-else if (lotesProductos.Count == 0)
+else if (loteProductos.Count == 0)
 {
     <h1>No se encontraron lotes registrados...</h1>
 }
@@ -32,7 +32,7 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (var lote in lotesProductos)
+                @foreach (var lote in loteProductos)
                 {
                     <tr>
                         <td>@lote.Id</td>
@@ -52,22 +52,22 @@ else
 
 
 @code {
-    protected List<LoteProductoDto> lotesProductos;
+    protected List<LoteProductoDto> loteProductos;
 
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await httpClient.GetFromJsonAsync<List<LoteProductoDto>>("api/LotesProductos");
+        var response = await httpClient.GetFromJsonAsync<List<LoteProductoDto>>("api/LoteProductos");
         if (response != null)
         {
-            lotesProductos = response;
+            loteProductos = response;
         }
     }
 
     protected async Task Eliminar(LoteProductoDto loteProducto)
     {
-        await httpClient.DeleteAsync($"api/LotesProductos/{loteProducto.Id}");
-        lotesProductos.Remove(loteProducto);
+        await httpClient.DeleteAsync($"api/LoteProductos/{loteProducto.Id}");
+        loteProductos.Remove(loteProducto);
     }
 
 }

@@ -6,6 +6,7 @@
 
 <h3>Productos</h3>
 
+
 <div class="row justify-content-end">
     <div class="col-lg-3 text-end">
         <button type="button" class="btn btn-success" @onclick=@(() => navigationManager.NavigateTo("producto"))>Agregar</button>
@@ -48,6 +49,11 @@ else
         </table>
     </div>
 }
+
+@*<div>
+    <a class="btn btn-success" href="loteProductos">Lote Productos</a>
+
+</div>*@
 
 @code {
     protected List<ProductoDto> productos;

@@ -8,6 +8,7 @@
 
 <h3>Cliente</h3>
 
+
 <EditForm Model="cliente" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
 
@@ -24,14 +25,9 @@
         <button type="button" class="btn btn-danger" onclick="history.back()">Cancelar</button>
         <button type="submit" class="btn btn-success">Guardar</button>
     </div>
-    <div class="nav-item px-3">
-        <NavLink class="nav-link" href="tarjetasPuntos">
-            <span class="oi oi-plus" aria-hidden="true"></span> Tarjeta de Puntos
-        </NavLink>
-    </div>
-
-
+   
 </EditForm>
+
 
 @code {
     protected ClienteDto cliente = new ClienteDto();
