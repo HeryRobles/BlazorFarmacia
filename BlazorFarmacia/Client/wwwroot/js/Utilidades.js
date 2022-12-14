@@ -9,7 +9,7 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Confirmar'
         }).then((result) => {
-            if (result.isConfirmed) {
+            if (result.value) {
                 resolve(true);
             }
             else {

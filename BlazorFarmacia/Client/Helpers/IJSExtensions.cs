@@ -9,9 +9,9 @@ namespace BlazorFarmacia.Client.Helpers
             return js.InvokeAsync<object>("Swal.fire", mensaje);
         }
 
-        public static async ValueTask<bool> Confirmar(this IJSRuntime js, string titulo, string mensaje, TipoMensajeSweetAlert tipoMensajeSweetAlert)
+        public async static ValueTask<bool> Confirmar(this IJSRuntime js, string titulo, string mensaje, TipoMensajeSweetAlert tipoMensajeSweetAlert)
         {
-            return await js.InvokeAsync<bool>(titulo, mensaje, tipoMensajeSweetAlert.ToString());
+            return await js.InvokeAsync<bool>("CustomConfirm", titulo, mensaje, tipoMensajeSweetAlert.ToString());
         }
 
     
