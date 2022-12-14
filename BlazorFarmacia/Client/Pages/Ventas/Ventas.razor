@@ -27,7 +27,7 @@ else
             <thead class="table-striped">
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Nombre</th>
+                    <th scope="col">Folio Venta</th>
                     <th scope="col">Opciones</th>
                 </tr>
             </thead>
@@ -37,6 +37,7 @@ else
                     <tr>
                         <td>@venta.Id</td>
                         <td>@venta.Folio</td>
+                        <td>@venta.TotalVenta</td>
 
                         <td>
                             <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"venta/{venta.Id}"))>Editar</button>
