@@ -1,8 +1,10 @@
 ﻿@page "/productos"
+@using BlazorFarmacia.Client.Helpers
 @using BlazorFarmacia.Shared.DTOS.Productos
 
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
+@*@inject JSRuntime JS*@
 
 <h3>Productos</h3>
 
@@ -42,6 +44,7 @@ else
                         <td>
                             <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"producto/{producto.Id}"))>Editar</button>
                             <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(producto))">Eliminar</button>
+                            @*<button class="btn btn-danger" type="button" @onclick="@(() => MensajeSA())">Mensaje Prueba</button>*@
                         </td>
                     </tr>
                 }
@@ -73,5 +76,10 @@ else
         await httpClient.DeleteAsync($"api/Productos/{producto.Id}");
         productos.Remove(producto);
     }
+
+    //protected async Task MensajeSA()
+    //{
+    //    await JS.MostrarMensaje("Mensaje de prueba");
+    //}
 
 }

@@ -20,9 +20,9 @@ namespace BlazorFarmacia.Server.Controllers
             this.context = context;
             this.mapper = mapper;   
         }
-        [HttpGet]
 
-        public async Task<ActionResult<List<EmpleadoDto>>> Get()
+        [HttpGet]
+        public async Task<ActionResult<List<EmpleadoDto>>> GetEmpleado()
         {
             return await context.Empleados.ProjectTo<EmpleadoDto>(mapper.ConfigurationProvider).ToListAsync();
         }

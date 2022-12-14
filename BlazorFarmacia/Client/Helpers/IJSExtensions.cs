@@ -14,7 +14,6 @@ namespace BlazorFarmacia.Client.Helpers
             return await js.InvokeAsync<bool>("CustomConfirm", titulo, mensaje, tipoMensajeSweetAlert.ToString());
         }
 
-    
     }
 
     public enum TipoMensajeSweetAlert

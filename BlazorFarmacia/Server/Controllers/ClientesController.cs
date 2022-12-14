@@ -25,27 +25,8 @@ namespace BlazorFarmacia.Server.Controllers
         public async Task<ActionResult<List<ClienteDto>>> Get()
         {
             return await context.Clientes.ProjectTo<ClienteDto>(mapper.ConfigurationProvider).ToListAsync();
-            //return mapper.Map < List < ClienteDto >> await context.Clientes.ToListAsync());
-
+            
         }
-
-        //[HttpGet]
-        //public async Task<ActionResult<List<ClienteDto>>> GetClientes()
-        //{
-        //    var clientes = await context.Clientes.ToListAsync();
-        //    var clientesDto = new List<ClienteDto>();
-
-        //    foreach (var cliente in clientes)
-        //    {
-        //        var clienteDto = new ClienteDto();
-        //        clienteDto.Id = cliente.Id;
-        //        cliente.Nombre = cliente.Nombre;
-
-        //        clientesDto.Add(clienteDto);
-        //    }
-
-        //    return clientesDto;
-        //}
 
         [HttpGet("{id:int}")]
 

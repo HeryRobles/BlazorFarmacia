@@ -43,8 +43,7 @@ else
 
                         <td>
                             <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"cliente/{cliente.Id}"))>Editar</button>
-                            <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(cliente))">Eliminar</button>
-                            @*<button class="btn btn-danger" type="button" @onclick="@(() => Mensaje("lo que sea")">Mostrar Mensaje SweetAlert2</button>*@
+                            <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(cliente))">Eliminar</button>                            
                         </td>
                     </tr>
                 }
@@ -54,11 +53,10 @@ else
 }
 
 
-
-<div>
+@*<div>
     <a class="btn btn-success" href="tarjetasPuntos">Agregar Tarjeta de Puntos</a>
 
-</div>
+</div>*@
 
 @code {
     protected List<ClienteDto> clientes;
@@ -75,13 +73,22 @@ else
 
     protected async Task Eliminar(ClienteDto cliente)
     {
-
+        await httpClient.DeleteAsync($"api/Clientes/{cliente.Id}");
         if (await JS.Confirmar("Confirmar", "Desea eliminar este registro seleccionado?", TipoMensajeSweetAlert.question))
         {
-            await httpClient.DeleteAsync($"api/Clientes/{cliente.Id}");
             clientes.Remove(cliente);
         }
-
+        
     }
+
+
+       
+
+    //var confirmacion = await JS.InvokeAsync<bool>("Confirmar", "Confirmar",
+    //"¿Estas seguro que desea eliminar este registro seleccionado?", TipoMensajeSweetAlert.question);
+    //if(confirmacion)
+    //{
+    //    clientes.Remove(cliente);
+    //}
 
 }
