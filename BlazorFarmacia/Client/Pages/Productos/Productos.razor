@@ -4,7 +4,7 @@
 
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
-@*@inject JSRuntime JS*@
+@inject JSRuntime JS
 
 <h3>Productos</h3>
 
@@ -74,7 +74,11 @@ else
     protected async Task Eliminar(ProductoDto producto)
     {
         await httpClient.DeleteAsync($"api/Productos/{producto.Id}");
-        productos.Remove(producto);
+        if (await JS.Confirmar("Confirmar", "Desea eliminar este registro seleccionado?", TipoMensajeSweetAlert.question))
+        {
+            productos.Remove(producto);
+        }
+    
     }
 
     //protected async Task MensajeSA()
