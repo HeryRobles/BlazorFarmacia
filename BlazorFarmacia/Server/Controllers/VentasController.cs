@@ -13,6 +13,7 @@ namespace BlazorFarmacia.Server.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
+      
 
         public VentasController(ApplicationDbContext context, IMapper mapper)
         {
